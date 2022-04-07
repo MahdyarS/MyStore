@@ -1,0 +1,155 @@
+﻿@*@model UserCreateModel*@
+
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1>ثبت کاربر جدید</h1>
+
+
+
+<form class="col-6" action="CreateUser" method="post">
+
+    <div class="form-floating mb-3">
+        <input type="text" name="Name" class="form-control" id="fname" placeholder="Enter the name">
+        <label class="form-label" for="fname">نام:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" name="Name" class="form-control" id="lname" placeholder="Enter the name">
+        <label class="form-label" for="lname">نام خانوادگی:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="number" name="Name" class="form-control" id="phone" placeholder="Enter the name">
+        <label class="form-label" for="phone">تلفن همراه:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input name="Email" type="email" class="form-control" id="email" placeholder="name@example.com">
+        <label for="floatingInput">ایمیل:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <select class="form-select" id="RoleName" asp-items="@ViewBag.Roles">
+            <option selected disabled>یک نقش انتخاب کنید</option>
+        </select>
+        <label for="RoleName">یک نقش انتخاب کنید</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input name="Password" type="password" class="form-control" id="password" placeholder="Password">
+        <label for="floatingPassword">رمز عبور:</label>
+    </div>
+    <div class="form-floating">
+        <input name="RepeatPassword" type="password" class="form-control" id="RepeatPassword" placeholder="Password">
+        <label for="floatingPassword">تکرار رمز:</label>
+    </div>
+
+    @*<button class="btn btn-success mt-3">افزودن کاربر</button>*@
+    <input onclick="create()" class="btn btn-success mt-3" type="button" name="nam" value="submit" />
+
+</form>
+@section Scripts
+{
+
+    <script>
+        function create() {
+
+            var fname = $('#fname').val();
+            var lname = $('#lname').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var RepeatPassword = $('#RepeatPassword').val();
+            var RoleName = $('#RoleName').val();
+
+
+            if (password != RepeatPassword) {
+                swal.fire({
+                    title: "خطا!",
+                    text: "رمز و تکرار آن برابر نیست",
+                    icon: "warning",
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'باشه',
+
+                }).then((result) => { return 0; })
+
+            }
+            else {
+                swal.fire({
+                    title: "ثبت نام کاربر",
+                    text: "آیا از ثبت این کاربر مطمئن هستید؟",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'بله انجام شود',
+                    cancelButtonText: 'خیر'
+                })
+                    .then((result) => {
+                        if (result.value) {
+
+                            var postData = {
+                                'firstName': fname,
+                                'lastName': lname,
+                                'phoneNumber': phone,
+                                'userName': email,
+                                'password': password,
+                                'confirmPassword': RepeatPassword,
+                                'RoleName': RoleName
+                            }
+
+                            $.ajax({
+                                contetType: "application/x-www-form-urlencoded",
+                                dataType: 'json',
+                                type: "POST",
+                                url: "CreateUser",
+                                data: postData,
+                                success: data => {
+                                    if (data.succeeded) {
+                                        swal.fire({
+                                            title: "موفق!",
+                                            text: data.message,
+                                            icon: "success",
+                                            confirmButtonColor: '#d33',
+                                            confirmButtonText: "باشه"
+                                        }).then(p => location.reload());
+
+
+                                    } else {
+                                        swal.fire({
+                                            title: "ناموفق!",
+                                            text: data.message,
+                                            icon: "warning",
+                                            confirmButtonColor: '#d33',
+                                            confirmButtonText: "باشه"
+                                        })
+
+                                    }
+                                }
+                            });
+
+                        }
+
+                    });
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+}
+
+
