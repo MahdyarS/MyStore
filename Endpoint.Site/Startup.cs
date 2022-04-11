@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyStore.Application.Services.VisitorServices.SaveVisitorInfoService;
 using MyStore.Infrastructure.IdentityConfigs;
+using MyStore.Infrastructure.StartupConfigureServices.AutoMapperServicesConfigs;
+using MyStore.Infrastructure.StartupConfigureServices.ProductServicesConfigs;
 using MyStore.Infrastructure.StartupConfigureServices.VisitorServicesConfigs;
 using System;
 using System.Collections.Generic;
@@ -33,7 +35,7 @@ namespace Endpoint.Site
         public void ConfigureServices(IServiceCollection services)
         {
             //////////////////////////////////////////////////////////////////////
-            //built-in services and Filters
+            //asp.net core built-in services and Filters
             //////////////////////////////////////////////////////////////////////
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -52,9 +54,11 @@ namespace Endpoint.Site
             //////////////////////////////////////////////////////////////////////
 
             services.AddIdentityConfigs(Configuration);
+            services.AddAutoMapperServices();
             services.AddVisitorServices();
             services.AddUtilityServices();
             services.AddUserServices();
+            services.AddProductServices();
             services.AddInfrastructureServices();
 
         }

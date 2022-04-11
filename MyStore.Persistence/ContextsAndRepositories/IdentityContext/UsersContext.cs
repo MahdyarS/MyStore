@@ -23,6 +23,7 @@ namespace MyStore.Persistence.Contexts
             builder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId });
             builder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 
+
             builder.Entity<Role>().HasData(new Role { Name = RoleName.Admin.ToString(),NormalizedName = RoleName.Admin.ToString().ToUpper() });
             builder.Entity<Role>().HasData(new Role { Name = RoleName.Operator.ToString(),NormalizedName = RoleName.Operator.ToString().ToUpper() });
             builder.Entity<Role>().HasData(new Role { Name = RoleName.User.ToString(),NormalizedName = RoleName.User.ToString().ToUpper() });

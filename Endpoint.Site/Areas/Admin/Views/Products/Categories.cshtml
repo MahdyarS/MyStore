@@ -1,0 +1,69 @@
+﻿@model MyStore.Common.ResultDto.ResultDto<List<MyStore.Domain.Entities.Products.CategoryAbstract>>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+<h3>نمایش زیر گروه های @Model.Message:</h3>
+
+
+@if (ViewBag.parent.CategoryName == "Root")
+{
+    <button class="btn col-4 btn-outline-success btn-lg">
+        افزودن زیرگروه
+    </button>
+
+}
+
+
+else
+{
+    if (ViewBag.parent.ProductsCount == 0)
+    {
+        <button class="btn col-md-4 btn-outline-success btn-lg">
+            افزودن زیرگروه
+        </button>
+    }
+    if (ViewBag.parent.SubCategoriesCount == 0)
+    {
+        <button class="btn col-md-4 btn-outline-primary btn-lg">
+            افزودن کالا
+        </button>
+    }
+}
+
+<div class="justify-content-center">
+<table class="table col-md-6 ">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>نام گروه</th>
+            <th>آپشن ها</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.CategoryName</td>
+                <td>
+                    <button class="btn btn-primary btn-sm">
+                        کالا ها
+                    </button>
+                    <button class="btn btn-success btn-sm">
+                        زیر گروه ها
+                    </button>
+                    <button class="btn btn-danger btn-sm">
+                        حذف کردن زیر گروه
+                    </button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+</div>
